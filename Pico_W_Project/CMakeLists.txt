@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(Pico_W main.c speaker.c )
+add_executable(Pico_W main.c speaker/speaker.c )
 
 pico_set_program_name(Pico_W "Pico W")
 pico_set_program_version(Pico_W "0.1")

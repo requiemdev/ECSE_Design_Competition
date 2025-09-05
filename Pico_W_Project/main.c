@@ -3,7 +3,7 @@
 
 // C Defines
 #include "common.h"
-#include "speaker.h"
+#include "speaker/speaker.h"
 
 // UART defines
 // By default the stdout UART is `uart0`, so we will use the second one

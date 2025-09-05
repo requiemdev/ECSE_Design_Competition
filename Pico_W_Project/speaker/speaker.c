@@ -1,7 +1,10 @@
 #include "common.h"
 #include "speaker.h"
 
+#include <stdlib.h>
+#include <time.h>
 
+uint8_t const songCounts[2] = FOLDER_SONG_COUNTS;
 
 void speakerUartInit() {
     uart_init(SPEAKER_UART_ID, SPEAKER_BAUD_RATE);
@@ -38,4 +41,23 @@ void speakerContinueSong() {
 
 void speakerStopSong() {
     speakerSendEmptyCommand(0x16);
+}
+
+void speakerPlayRandomSong() {
+    uint8_t const songCounts[USED_FOLDER_COUNT] = FOLDER_SONG_COUNTS;
+
+    // Select random song
+    srand((unsigned int)time(NULL));
+    uint8_t random_song = rand() % TOTAL_SONGS;
+
+    // Find song in the folder structure
+    uint8_t folder_index = 0;
+    uint8_t songs_checked = 0;
+    while (songs_checked <= random_song) {
+        songs_checked += songCounts[folder_index];
+        folder_index ++;
+    }
+
+    // The song was in the previous folder so play that one.
+    speakerPlaySong(folder_index, random_song - songs_checked + songCounts[folder_index - 1] + 1);
 }

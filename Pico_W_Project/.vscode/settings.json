@@ -41,6 +41,8 @@
         "stdio.h": "c",
         "stdlib.h": "c",
         "common.h": "c",
-        "speaker.h": "c"
+        "speaker.h": "c",
+        "variant": "c",
+        "cstdint": "c"
     }
 }

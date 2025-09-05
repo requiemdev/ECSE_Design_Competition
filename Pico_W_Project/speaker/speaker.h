@@ -9,6 +9,13 @@
 #define SPEAKER_UART_TX_PIN 4
 #define SPEAKER_UART_RX_PIN 5
 
+/* FOLDER_SONG_COUNTS used for random song selector.
+*  The value in index i = song count in folder number i+1
+*/
+#define USED_FOLDER_COUNT 2
+#define FOLDER_SONG_COUNTS {4, 2}
+#define TOTAL_SONGS 6
+
 /** Initialise the speaker UART using defines:
  *  SPEAKER_UART_ID,
  *  SPEAKER_UART_TX_PIN,
@@ -43,5 +50,11 @@ void speakerContinueSong();
 
 /** Stop the currently playing song */
 void speakerStopSong();
+
+/** Select and play a random song in the speaker.
+ * The input is an array containing the number of songs in each folder.
+ * - Value in index i = number of songs in folder number i+1.
+ */
+void speakerPlayRandomSong();
 
 #endif // SPEAKER_H

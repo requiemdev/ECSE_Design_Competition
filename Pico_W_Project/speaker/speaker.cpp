@@ -30,14 +30,6 @@ void speakerSendEmptyCommand(uint8_t cmd) {
     speakerSendCommand(cmd, 0x00, 0x00);
 }
 
-void speakerSleepMode() {
-    speakerSendEmptyCommand(0x0A);
-}
-
-void speakerWakeUp() {
-    speakerSendEmptyCommand(0x0B);
-}
-
 void speakerPlaySong(uint8_t folder, uint8_t song) {
     speakerSendCommand(0x0F, folder, song);
 }

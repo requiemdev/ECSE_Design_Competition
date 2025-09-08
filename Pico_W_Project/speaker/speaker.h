@@ -17,8 +17,8 @@
 *  These defines will change depending on what songs are in the speaker memory
 */
 #define USED_FOLDER_COUNT 2
-#define FOLDER_SONG_COUNTS {4, 2}
-#define TOTAL_SONGS 6
+#define FOLDER_SONG_COUNTS {3, 2}
+#define TOTAL_SONGS 5
 
 /** Initialise the uart peripherals of the speaker and
  *   all other initialisations to be able to use the speaker.
@@ -38,12 +38,6 @@ void speakerSendCommand(uint8_t command, uint8_t data_1, uint8_t data_2);
  *  no input data bits
  */
 void speakerSendEmptyCommand(uint8_t cmd);
-
-/** Put speaker into sleep mode */
-void speakerSleepMode();
-
-/** Wake up the speaker from sleep mode */
-void speakerWakeUp();
 
 /** Play specified song in memory.
  *  - directory[0] = folder.

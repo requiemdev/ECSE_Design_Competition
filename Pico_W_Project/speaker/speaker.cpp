@@ -3,7 +3,6 @@
 
 #include <stdlib.h>
 #include <time.h>
-#include <rand.h>
 
 uint8_t const songCounts[] = FOLDER_SONG_COUNTS;
 int8_t volume = 0;
@@ -13,7 +12,7 @@ void speakerInitialise(uint8_t v) {
     gpio_set_function(SPEAKER_UART_TX_PIN, GPIO_FUNC_UART);
     gpio_set_function(SPEAKER_UART_RX_PIN, GPIO_FUNC_UART);
     srand((unsigned int)time(NULL));
-    speakerSetVolume(v);   
+    //speakerSetVolume(v);   
 }
 
 void speakerSendCommand(uint8_t cmd, uint8_t data_1, uint8_t data_2) {

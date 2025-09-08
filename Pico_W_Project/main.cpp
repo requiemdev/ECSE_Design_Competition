@@ -9,41 +9,25 @@ int main()
 {
     stdio_init_all();
     
-    speakerInitialise(30);
+    speakerInitialise(15);
 
     cyw43_arch_init();
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
 
     speakerPlaySong(2, 1);
-    // sleep_ms(1000);
-    // speakerChangeVolume(10);
-    // sleep_ms(1000);
-    // speakerChangeVolume(10);
-    // sleep_ms(1000);
-    // speakerChangeVolume(10);
-    // sleep_ms(1000);
-    // speakerChangeVolume(-10);
-    // sleep_ms(1000);
-    // speakerChangeVolume(-10);
-    // sleep_ms(1000);
-    // speakerChangeVolume(-10);
-    // sleep_ms(1000);
-    // speakerChangeVolume(-10);
-    // sleep_ms(1000);
-    // speakerChangeVolume(-10);
-    // sleep_ms(1000);
-    // speakerChangeVolume(10);
-    // sleep_ms(1000);
-    // speakerSetVolume(10);
-    // sleep_ms(1000);
-    // speakerSleepMode();
-    // sleep_ms(5000);
-    // speakerWakeUp();
-    // sleep_ms(5000);
-    sleep_ms(100000);
+    sleep_ms(10000);
+    speakerNextSong();
+    sleep_ms(10000);
+    speakerPreviousSong();
+    sleep_ms(10000);
+    speakerPreviousSong();
+    sleep_ms(10000);
+
 
     while (true) {
-        speakerPlayRandomSong();
+        speakerPlayRandomSongInFolder(1);
+        sleep_ms(10000);
+        speakerPlayRandomSongInFolder(2);
         sleep_ms(10000);
     }
 }

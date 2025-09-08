@@ -12,7 +12,7 @@ void speakerInitialise(uint8_t v) {
     gpio_set_function(SPEAKER_UART_TX_PIN, GPIO_FUNC_UART);
     gpio_set_function(SPEAKER_UART_RX_PIN, GPIO_FUNC_UART);
     srand((unsigned int)time(NULL));
-    //speakerSetVolume(v);   
+    speakerSetVolume(v);   
 }
 
 void speakerSendCommand(uint8_t cmd, uint8_t data_1, uint8_t data_2) {
@@ -71,7 +71,7 @@ void speakerSetVolume(uint8_t v) {
 }
 
 void speakerChangeVolume(int8_t dv) {
-    int8_t new_volume = volume - dv;
+    int8_t new_volume = volume + dv;
     if (new_volume < 0) {
         speakerSetVolume(0);
         return;
@@ -96,7 +96,7 @@ void speakerPlayRandomSong() {
     }
 
     // The song was in the previous folder so play that one.
-    speakerPlaySong(folder_index, random_song - songs_checked + songCounts[folder_index - 1] + 1);
+    speakerPlaySong(folder_index, random_song - (songs_checked - songCounts[folder_index - 1]) + 1);
 }
 
 void speakerPlayRandomSongInFolder(uint8_t folder) {

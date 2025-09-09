@@ -5,20 +5,20 @@
 #include "common.h"
 #include "speaker/speaker.h"
 
+volatile bool song_playing = true;
+
+
+
 int main()
 {
     stdio_init_all();
     
-    speakerInitialise(30);
+    speakerInitialise(20);
 
     cyw43_arch_init();
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
 
-    speakerPlaySong(2, 1);
-    sleep_ms(2500);
-    
-
-
     while (true) {
+
     }
 }

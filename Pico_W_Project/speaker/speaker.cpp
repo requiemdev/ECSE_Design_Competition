@@ -67,8 +67,7 @@ void speakerChangeVolume(int8_t dv) {
     if (new_volume < 0) {
         speakerSetVolume(0);
         return;
-    }
-    if (new_volume > SPEAKER_MAX_VOLUME) {
+    } else if (new_volume > SPEAKER_MAX_VOLUME) {
         speakerSetVolume(SPEAKER_MAX_VOLUME);
         return;
     }

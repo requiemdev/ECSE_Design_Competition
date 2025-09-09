@@ -1,13 +1,13 @@
 bool trigger(__unused repeating_timer *timer) {
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
-    speakerChangeVolume(3);
+    changeVolume(3);
     sleep_ms(100);
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
     return true;
 }
 
 int64_t alarm_trigger(__unused alarm_id_t id, __unused void *user_data) {
-    speakerStopSong();
+    stopSong();
     song_playing = false;
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
     return true;

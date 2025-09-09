@@ -12,7 +12,7 @@ volatile bool song_playing = true;
 */
 void initialiseMCU() {
     stdio_init_all();
-    Speaker::speakerInitialise(SPEAKER_DEFAULT_VOLUME);
+    Speaker::initialise(SPEAKER_DEFAULT_VOLUME);
     cyw43_arch_init();
 }
 

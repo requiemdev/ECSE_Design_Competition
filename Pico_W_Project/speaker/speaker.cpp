@@ -7,15 +7,15 @@
 uint8_t const songCounts[] = FOLDER_SONG_COUNTS;
 int8_t volume = 0;
 
-void Speaker::speakerInitialise(uint8_t v) {
+void Speaker::initialise(uint8_t v) {
     uart_init(SPEAKER_UART_ID, SPEAKER_BAUD_RATE);
     gpio_set_function(SPEAKER_UART_TX_PIN, GPIO_FUNC_UART);
     gpio_set_function(SPEAKER_UART_RX_PIN, GPIO_FUNC_UART);
     srand((unsigned int)time(NULL));
-    Speaker::speakerSetVolume(v);   
+    Speaker::setVolume(v);   
 }
 
-void Speaker::speakerSendCommand(uint8_t cmd, uint8_t data_1, uint8_t data_2) {
+void Speaker::sendCommand(uint8_t cmd, uint8_t data_1, uint8_t data_2) {
     uart_putc(SPEAKER_UART_ID, 0x7E);
     uart_putc(SPEAKER_UART_ID, 0xFF);
     uart_putc(SPEAKER_UART_ID, 0x06);
@@ -26,55 +26,55 @@ void Speaker::speakerSendCommand(uint8_t cmd, uint8_t data_1, uint8_t data_2) {
     uart_putc(SPEAKER_UART_ID, 0xEF);
 }
 
-void Speaker::speakerSendEmptyCommand(uint8_t cmd) {
-    Speaker::speakerSendCommand(cmd, 0x00, 0x00);
+void Speaker::sendEmptyCommand(uint8_t cmd) {
+    Speaker::sendCommand(cmd, 0x00, 0x00);
 }
 
-void Speaker::speakerPlaySong(uint8_t folder, uint8_t song) {
-    Speaker::speakerSendCommand(0x0F, folder, song);
+void Speaker::playSong(uint8_t folder, uint8_t song) {
+    Speaker::sendCommand(0x0F, folder, song);
 }
 
-void Speaker::speakerPauseSong() {
-    Speaker::speakerSendEmptyCommand(0x0E);
+void Speaker::pauseSong() {
+    Speaker::sendEmptyCommand(0x0E);
 }
 
-void Speaker::speakerContinueSong() {
-    Speaker::speakerSendEmptyCommand(0x0D);
+void Speaker::continueSong() {
+    Speaker::sendEmptyCommand(0x0D);
 }
 
-void Speaker::speakerNextSong() {
-    Speaker::speakerSendEmptyCommand(0x01);
+void Speaker::nextSong() {
+    Speaker::sendEmptyCommand(0x01);
 }
 
-void Speaker::speakerPreviousSong() {
-    Speaker::speakerSendEmptyCommand(0x02);
+void Speaker::previousSong() {
+    Speaker::sendEmptyCommand(0x02);
 }
 
-void Speaker::speakerStopSong() {
-    Speaker::speakerSendEmptyCommand(0x16);
+void Speaker::stopSong() {
+    Speaker::sendEmptyCommand(0x16);
 }
 
-void Speaker::speakerSetVolume(uint8_t v) {
+void Speaker::setVolume(uint8_t v) {
     if (v > SPEAKER_MAX_VOLUME) {
         v = SPEAKER_MAX_VOLUME;
     }
-    Speaker::speakerSendCommand(0x06, 0x00, v);
+    Speaker::sendCommand(0x06, 0x00, v);
     volume = v;
 }
 
-void Speaker::speakerChangeVolume(int8_t dv) {
+void Speaker::changeVolume(int8_t dv) {
     int8_t new_volume = volume + dv;
     if (new_volume < 0) {
-        Speaker::speakerSetVolume(0);
+        Speaker::setVolume(0);
         return;
     } else if (new_volume > SPEAKER_MAX_VOLUME) {
-        Speaker::speakerSetVolume(SPEAKER_MAX_VOLUME);
+        Speaker::setVolume(SPEAKER_MAX_VOLUME);
         return;
     }
-    Speaker::speakerSetVolume(new_volume);
+    Speaker::setVolume(new_volume);
 }
 
-void Speaker::speakerPlayRandomSong() {
+void Speaker::playRandomSong() {
     // Select random song
     uint8_t random_song = rand() % TOTAL_SONGS;
 
@@ -87,10 +87,10 @@ void Speaker::speakerPlayRandomSong() {
     }
 
     // The song was in the previous folder so play that one.
-    Speaker::speakerPlaySong(folder_index, random_song - (songs_checked - songCounts[folder_index - 1]) + 1);
+    Speaker::playSong(folder_index, random_song - (songs_checked - songCounts[folder_index - 1]) + 1);
 }
 
-void Speaker::speakerPlayRandomSongInFolder(uint8_t folder) {
+void Speaker::playRandomSongInFolder(uint8_t folder) {
     
     uint8_t f_index = folder - 1;
 
@@ -104,5 +104,5 @@ void Speaker::speakerPlayRandomSongInFolder(uint8_t folder) {
     }
 
     // Play a random song in this folder
-    Speaker::speakerPlaySong(folder, rand() % songCounts[f_index-1] + 1);
+    Speaker::playSong(folder, rand() % songCounts[f_index-1] + 1);
 }

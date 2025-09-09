@@ -28,20 +28,20 @@ namespace Speaker {
      *   all other initialisations to be able to use the speaker.
      *  Volume = volume which the speaker should be set to <= 30
      */
-    void speakerInitialise(uint8_t volume);
+    void initialise(uint8_t volume);
 
 
     /** Send a command through the uart to the speaker
      *  with id UART_SPEAKER_ID defined in common.h and
      *  two input data bits
      */
-    void speakerSendCommand(uint8_t command, uint8_t data_1, uint8_t data_2);
+    void sendCommand(uint8_t command, uint8_t data_1, uint8_t data_2);
 
     /** Send a command through the uart to the speaker
      *  with id UART_SPEAKER_ID defined in common.h and
      *  no input data bits
      */
-    void speakerSendEmptyCommand(uint8_t cmd);
+    void sendEmptyCommand(uint8_t cmd);
 
     /** Play specified song in memory.
      *  - directory[0] = folder.
@@ -49,37 +49,37 @@ namespace Speaker {
      *  - directory[1] = song number in folder.
      *      Song numbers start from 1 like in the speaker itself.
      */
-    void speakerPlaySong(uint8_t folder, uint8_t song);
+    void playSong(uint8_t folder, uint8_t song);
 
     /** Pause the currently playing song */
-    void speakerPauseSong();
+    void pauseSong();
 
     /** Continue the song that was playing before pausing */
-    void speakerContinueSong();
+    void continueSong();
 
     /** Play the next song in the folder */
-    void speakerNextSong();
+    void nextSong();
 
     /** Play the previous song in the folder */
-    void speakerPreviousSong();
+    void previousSong();
 
     /** Stop the currently playing song */
-    void speakerStopSong();
+    void stopSong();
 
     /** Change the volume to the specified value <= SPEAKER_MAX_VOLUME */
-    void speakerSetVolume(uint8_t volume);
+    void setVolume(uint8_t volume);
 
     /** Change the volume by the specified amount.
      *  If it would exceed the lower or upper limits (0 <= Volume <= SPEAKER_MAX_VOLUME),
      *   the volume is set to the limit instead
      */
-    void speakerChangeVolume(int8_t volume_change);
+    void changeVolume(int8_t volume_change);
 
     /** Select and play a random song in the speaker.
      *  This function depends on the defines 
      *      USED_FOLDER_COUNT, FOLDER_SONG_COUNTS & TOTAL_SONGS
      */
-    void speakerPlayRandomSong();
+    void playRandomSong();
 
     /** Select and play a random song in a specified folder.
      *      Folders start from 1 like in the speaker itself.
@@ -87,7 +87,7 @@ namespace Speaker {
      *      USED_FOLDER_COUNT & FOLDER_SONG_COUNTS
      * 
      */
-    void speakerPlayRandomSongInFolder(uint8_t folder);
+    void playRandomSongInFolder(uint8_t folder);
 
 }
 

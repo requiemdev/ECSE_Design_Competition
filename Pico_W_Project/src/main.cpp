@@ -81,15 +81,15 @@ int main()
     sleep_ms(5000);
     MainEvent::onJarvisVoiceDetected();
 
-    sleep_ms(15000);
+    sleep_ms(10000);
     MainEvent::onJarvisVoiceDetected();
     Speaker::playRandomSong();
     
     for (uint8_t i=1; i<3; i++) {
         sleep_ms(10000);
+        MainEvent::onJarvisVoiceDetected();
         Speaker::playRandomSongInFolder(i);
     }
-
 
     while (true) {
     }

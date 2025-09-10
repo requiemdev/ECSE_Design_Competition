@@ -31,6 +31,14 @@ void Speaker::sendEmptyCommand(uint8_t cmd) {
     Speaker::sendCommand(cmd, 0x00, 0x00);
 }
 
+void Speaker::sleep() {
+    Speaker::sendEmptyCommand(0x0A);
+}
+
+void Speaker::wakeUp() {
+    Speaker::sendEmptyCommand(0x0B);
+}
+
 void Speaker::playSong(uint8_t folder, uint8_t song) {
     Speaker::sendCommand(0x0F, folder, song);
     Timer::startSongTimer();
@@ -86,15 +94,15 @@ void Speaker::playRandomSong() {
     uint8_t random_song = rand() % TOTAL_SONGS;
 
     // Find song in the folder structure
-    uint8_t folder_index = 0;
+    uint8_t f_index = 0;
     uint8_t songs_checked = 0;
     while (songs_checked <= random_song) {
-        songs_checked += songCounts[folder_index];
-        folder_index ++;
+        songs_checked += songCounts[f_index];
+        f_index ++;
     }
 
     // The song was in the previous folder so play that one.
-    Speaker::playSong(folder_index, random_song - (songs_checked - songCounts[folder_index - 1]) + 1);
+    Speaker::playSong(f_index, random_song - (songs_checked - songCounts[f_index - 1]) + 1);
     Timer::startSongTimer();
 }
 
@@ -107,11 +115,11 @@ void Speaker::playRandomSongInFolder(uint8_t folder) {
     if (f_index >= USED_FOLDER_COUNT) {
         return;
     }
-    if (songCounts[f_index-1] == 0) {
+    if (songCounts[f_index] == 0) {
         return;
     }
 
     // Play a random song in this folder
-    Speaker::playSong(folder, rand() % songCounts[f_index-1] + 1);
+    Speaker::playSong(folder, (rand() % songCounts[f_index-1]) + 1);
     Timer::startSongTimer();
 }

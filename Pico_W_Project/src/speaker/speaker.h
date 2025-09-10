@@ -13,8 +13,6 @@ namespace Speaker {
 
     /** The maximum volume allowed by the speaker */
     #define SPEAKER_MAX_VOLUME 30
-    /** The starting volume of the speaker module */
-    #define SPEAKER_DEFAULT_VOLUME 30
 
     /* FOLDER_SONG_COUNTS used for random song selector.
     *  The value in index i = song count in folder number i+1
@@ -42,6 +40,12 @@ namespace Speaker {
      *  no input data bits
      */
     void sendEmptyCommand(uint8_t cmd);
+
+    /** Sleep the speaker. Note that it will likely not be able to wake up. */
+    void sleep();
+    
+    /** Wake up the speaker. This command does not seem to work */
+    void wakeUp();
 
     /** Play specified song in memory.
      *  - directory[0] = folder.

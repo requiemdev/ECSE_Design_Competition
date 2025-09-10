@@ -3,10 +3,6 @@
 
 #include "../common.h"
 
-#define WAIT_FOR_COMMAND_TIMER_DURATION_MS 5000
-#define LAPTOP_TRANSMISSION_TIMER_DURATION_MS 5000
-#define SONG_TIMER_DURATION_MS 20000
-
 namespace Timer {
     /** Automatically triggers when timer expires */
     int64_t waitForCommandTimerTrigger(__unused alarm_id_t id, __unused void *user_data);

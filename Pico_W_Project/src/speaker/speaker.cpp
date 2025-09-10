@@ -1,11 +1,11 @@
-#include "common.h"
+#include "../common.h"
 #include "speaker.h"
 
 #include <stdlib.h>
 #include <time.h>
 
 uint8_t const songCounts[] = FOLDER_SONG_COUNTS;
-int8_t volume = 0;
+volatile int8_t volume = 0;
 
 void Speaker::initialise(uint8_t v) {
     uart_init(SPEAKER_UART_ID, SPEAKER_BAUD_RATE);

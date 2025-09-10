@@ -43,6 +43,7 @@
         "common.h": "c",
         "speaker.h": "c",
         "variant": "c",
-        "cstdint": "c"
+        "cstdint": "c",
+        "random": "cpp"
     }
 }

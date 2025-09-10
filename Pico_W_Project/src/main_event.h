@@ -18,6 +18,9 @@ namespace MainEvent {
     */
     void onJarvisVoiceDetected();
 
+    /** This happens when the MCU receives a byte from the laptop. */
+    void onByteReceivedFromLaptop(int8_t byte);
+
     /** This happens when the Wait For Command timer runs out.
     *  In other words, no input has been heard by the MCU for a //  long time after the MCU has started listening.
     */ 

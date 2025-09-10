@@ -7,6 +7,10 @@
 #include "states.h"
 #include "main_event.h"
 #include "timers/timer.h"
+#include "command/command.h"
+
+// Temporary includes for testing
+#include "command/command_list.h"
 
 // Global Variables
 volatile bool song_playing = true;
@@ -48,6 +52,10 @@ void MainEvent::onJarvisVoiceDetected() {
     Timer::startWaitForCommandTimer();
 }
 
+void inline MainEvent::onByteReceivedFromLaptop(int8_t b) {
+    Command::runCommandFromByte(b);
+}
+
 void MainEvent::onWaitForCommandTimerDepletion() {
     current_state = State::SLEEP;
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
@@ -81,14 +89,16 @@ int main()
     sleep_ms(5000);
     MainEvent::onJarvisVoiceDetected();
 
-    sleep_ms(10000);
+    sleep_ms(5000);
     MainEvent::onJarvisVoiceDetected();
-    Speaker::playRandomSong();
+    MainEvent::onByteReceivedFromLaptop(1);
+    sleep_ms(2500);
+    MainEvent::onByteReceivedFromLaptop(CommandIndex::STOP_SONG);
     
-    for (uint8_t i=1; i<3; i++) {
-        sleep_ms(10000);
+    for (uint8_t i=1; i<6; i++) {
+        sleep_ms(5000);
         MainEvent::onJarvisVoiceDetected();
-        Speaker::playRandomSongInFolder(i);
+        MainEvent::onByteReceivedFromLaptop(i);
     }
 
     while (true) {

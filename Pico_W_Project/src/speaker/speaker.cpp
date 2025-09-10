@@ -96,7 +96,7 @@ void Speaker::playRandomSong() {
     // Find song in the folder structure
     uint8_t f_index = 0;
     uint8_t songs_checked = 0;
-    while (songs_checked <= random_song) {
+    while (songs_checked < random_song) {
         songs_checked += songCounts[f_index];
         f_index ++;
     }
@@ -120,6 +120,6 @@ void Speaker::playRandomSongInFolder(uint8_t folder) {
     }
 
     // Play a random song in this folder
-    Speaker::playSong(folder, (rand() % songCounts[f_index-1]) + 1);
+    Speaker::playSong(folder, (rand() % songCounts[f_index]) + 1);
     Timer::startSongTimer();
 }

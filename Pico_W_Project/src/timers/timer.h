@@ -3,27 +3,36 @@
 
 #include "../common.h"
 
-#define WAIT_FOR_COMMAND_TIMER_DURATION_MS 20000
-#define LAPTOP_TRANSMISSION_TIMER_DURATION_MS 20000
+#define WAIT_FOR_COMMAND_TIMER_DURATION_MS 5000
+#define LAPTOP_TRANSMISSION_TIMER_DURATION_MS 5000
 #define SONG_TIMER_DURATION_MS 20000
 
 namespace Timer {
-
+    /** Automatically triggers when timer expires */
     int64_t waitForCommandTimerTrigger(__unused alarm_id_t id, __unused void *user_data);
     
+    /** Automatically triggers when timer expires */
     int64_t laptopTransmissionTimerTrigger(__unused alarm_id_t id, __unused void *user_data);
     
+    /** Automatically triggers when timer expires */
     int64_t songTimerTrigger(__unused alarm_id_t id, __unused void *user_data);
 
+    /** Start or reset this timer */
     void startWaitForCommandTimer();
+    
+    /** Stop this timer or do nothing if the timer is not going */
     void stopWaitForCommandTimer();  
 
+    /** Start or reset this timer */
     void startLaptopTransmissionTimer();
-    void resetLaptopTransmissionTimer();
+
+    /** Stop this timer or do nothing if the timer is not going */
     void stopLaptopTransmissionTimer();
 
+    /** Start or reset this timer */
     void startSongTimer();
-    void resetSongTimer();
+    
+    /** Stop this timer or do nothing if the timer is not going */
     void stopSongTimer();
 }
 

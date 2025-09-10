@@ -1,5 +1,6 @@
 #include "../common.h"
 #include "speaker.h"
+#include "../timers/timer.h"
 
 #include <stdlib.h>
 #include <time.h>
@@ -32,26 +33,32 @@ void Speaker::sendEmptyCommand(uint8_t cmd) {
 
 void Speaker::playSong(uint8_t folder, uint8_t song) {
     Speaker::sendCommand(0x0F, folder, song);
+    Timer::startSongTimer();
 }
 
 void Speaker::pauseSong() {
     Speaker::sendEmptyCommand(0x0E);
+    Timer::stopSongTimer();
 }
 
 void Speaker::continueSong() {
     Speaker::sendEmptyCommand(0x0D);
+    Timer::startSongTimer();
 }
 
 void Speaker::nextSong() {
     Speaker::sendEmptyCommand(0x01);
+    Timer::startSongTimer();
 }
 
 void Speaker::previousSong() {
     Speaker::sendEmptyCommand(0x02);
+    Timer::startSongTimer();
 }
 
 void Speaker::stopSong() {
     Speaker::sendEmptyCommand(0x16);
+    Timer::stopSongTimer();
 }
 
 void Speaker::setVolume(uint8_t v) {
@@ -88,6 +95,7 @@ void Speaker::playRandomSong() {
 
     // The song was in the previous folder so play that one.
     Speaker::playSong(folder_index, random_song - (songs_checked - songCounts[folder_index - 1]) + 1);
+    Timer::startSongTimer();
 }
 
 void Speaker::playRandomSongInFolder(uint8_t folder) {
@@ -105,4 +113,5 @@ void Speaker::playRandomSongInFolder(uint8_t folder) {
 
     // Play a random song in this folder
     Speaker::playSong(folder, rand() % songCounts[f_index-1] + 1);
+    Timer::startSongTimer();
 }

@@ -21,6 +21,7 @@ int64_t Timer::songTimerTrigger(__unused alarm_id_t id, __unused void *user_data
 }
 
 void Timer::startWaitForCommandTimer() {
+    Timer::stopWaitForCommandTimer();
     waitForCommandTimer = add_alarm_in_ms(WAIT_FOR_COMMAND_TIMER_DURATION_MS, Timer::waitForCommandTimerTrigger, NULL, true);
 }
 
@@ -29,12 +30,8 @@ void Timer::stopWaitForCommandTimer() {
 }  
 
 void Timer::startLaptopTransmissionTimer() {
-    laptopTransmissionTimer = add_alarm_in_ms(LAPTOP_TRANSMISSION_TIMER_DURATION_MS, Timer::laptopTransmissionTimerTrigger, NULL, true);
-}
-
-void Timer::resetLaptopTransmissionTimer() {
     Timer::stopLaptopTransmissionTimer();
-    Timer::startLaptopTransmissionTimer();
+    laptopTransmissionTimer = add_alarm_in_ms(LAPTOP_TRANSMISSION_TIMER_DURATION_MS, Timer::laptopTransmissionTimerTrigger, NULL, true);
 }
 
 void Timer::stopLaptopTransmissionTimer() {
@@ -42,12 +39,8 @@ void Timer::stopLaptopTransmissionTimer() {
 }
 
 void Timer::startSongTimer() {
-    songTimer = add_alarm_in_ms(SONG_TIMER_DURATION_MS, Timer::songTimerTrigger, NULL, true);
-}
-
-void Timer::resetSongTimer() {
     Timer::stopSongTimer();
-    Timer::startSongTimer();
+    songTimer = add_alarm_in_ms(SONG_TIMER_DURATION_MS, Timer::songTimerTrigger, NULL, true);
 }
 
 void Timer::stopSongTimer() {

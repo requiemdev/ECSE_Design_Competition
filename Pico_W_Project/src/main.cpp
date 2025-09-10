@@ -24,18 +24,19 @@ void MainEvent::onByteReceivedFromMicrophone(uint8_t byte) {
         case State::SLEEP:
             // checkInputForJarvis();
             break;
+        
         case State::WAIT: 
             current_state = State::TRANSMIT;   
             //startLaptopTransmission();
-            Timer::startLaptopTransmissionTimer();
         
             // A command has been received so stop the timer 
             //  which waits for a command.
             Timer::stopWaitForCommandTimer();  
+        
         case State::TRANSMIT:
             // Send byte to laptop to interpret
             //transferByteToLaptop(byte);
-            Timer::resetLaptopTransmissionTimer();
+            Timer::startLaptopTransmissionTimer();
     }
 }
 
@@ -77,8 +78,18 @@ int main()
 
     // Have some code to simulate functions being called
 
-    sleep_ms(10000);
+    sleep_ms(5000);
     MainEvent::onJarvisVoiceDetected();
+
+    sleep_ms(15000);
+    MainEvent::onJarvisVoiceDetected();
+    Speaker::playRandomSong();
+    
+    for (uint8_t i=1; i<3; i++) {
+        sleep_ms(10000);
+        Speaker::playRandomSongInFolder(i);
+    }
+
 
     while (true) {
     }

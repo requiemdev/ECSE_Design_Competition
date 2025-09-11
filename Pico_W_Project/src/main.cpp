@@ -1,13 +1,26 @@
 // Pico Defines
 #include "pico/cyw43_arch.h"
 
-// C Defines
+// C++ Defines
 #include "common.h"
 #include "speaker/speaker.h"
 #include "states.h"
 #include "main_event.h"
 #include "timers/timer.h"
 #include "command/command.h"
+
+// C Defines
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "microphone.h"
+#include "usb_microphone.h"
+
+#ifdef __cplusplus
+}
+#endif
+
 
 // Temporary includes for testing
 #include "command/command_list.h"
@@ -19,8 +32,8 @@ volatile State current_state = State::SLEEP;
 void MainEvent::initialiseMCU() {
     stdio_init_all();
     Speaker::initialise(SPEAKER_DEFAULT_VOLUME);
-        // Also start microphone listening
-        cyw43_arch_init();
+    cyw43_arch_init();
+    microphone_setup();
 }
 
 void MainEvent::onByteReceivedFromMicrophone(uint8_t byte) {
@@ -85,36 +98,37 @@ int main()
 
     // Have some code to simulate functions being called
 
-    sleep_ms(5000);
-    MainEvent::onJarvisVoiceDetected();
+    // sleep_ms(5000);
+    // MainEvent::onJarvisVoiceDetected();
 
-    sleep_ms(5000);
-    MainEvent::onJarvisVoiceDetected();
-    MainEvent::onByteReceivedFromLaptop(1);
-    sleep_ms(2500);
-    MainEvent::onByteReceivedFromLaptop(CommandIndex::STOP_SONG);
+    // sleep_ms(5000);
+    // MainEvent::onJarvisVoiceDetected();
+    // MainEvent::onByteReceivedFromLaptop(1);
+    // sleep_ms(2500);
+    // MainEvent::onByteReceivedFromLaptop(CommandIndex::STOP_SONG);
     
-    for (uint8_t i=1; i<6; i++) {
-        sleep_ms(5000);
-        MainEvent::onJarvisVoiceDetected();
-        MainEvent::onByteReceivedFromLaptop(i);
-    }
+    // for (uint8_t i=1; i<6; i++) {
+    //     sleep_ms(5000);
+    //     MainEvent::onJarvisVoiceDetected();
+    //     MainEvent::onByteReceivedFromLaptop(i);
+    // }
 
-    sleep_ms(10000);
+    // sleep_ms(10000);
 
-    uint8_t folder, file;
-    for (uint8_t i=1; i<6; i++) {
-        MainEvent::onByteReceivedFromLaptop(i);
-        sleep_ms(1000);
-        Speaker::queryActiveSong(&folder, &file);
-        printf("Folder: %d, Song: %d\n", folder, file);
-        sleep_ms(1000);
-    }
+    // uint8_t folder, file;
+    // for (uint8_t i=1; i<6; i++) {
+    //     MainEvent::onByteReceivedFromLaptop(i);
+    //     sleep_ms(1000);
+    //     Speaker::queryActiveSong(&folder, &file);
+    //     printf("Folder: %d, Song: %d\n", folder, file);
+    //     sleep_ms(1000);
+    // }
 
 
     while (true) {
-        sleep_ms(5000);
-        Speaker::queryActiveSong(&folder, &file);
-        printf("Folder: %d, Song: %d\n", folder, file);
+        usb_microphone_task();
+        // sleep_ms(5000);
+        // Speaker::queryActiveSong(&folder, &file);
+        // printf("Folder: %d, Song: %d\n", folder, file);
     }
 }

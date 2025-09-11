@@ -78,7 +78,6 @@ void MainEvent::onSongTimerDepletion() {
     Speaker::stopSong();
 }
 
-
 int main()
 {
     MainEvent::initialiseMCU();
@@ -101,6 +100,21 @@ int main()
         MainEvent::onByteReceivedFromLaptop(i);
     }
 
+    sleep_ms(10000);
+
+    uint8_t folder, file;
+    for (uint8_t i=1; i<6; i++) {
+        MainEvent::onByteReceivedFromLaptop(i);
+        sleep_ms(1000);
+        Speaker::queryActiveSong(&folder, &file);
+        printf("Folder: %d, Song: %d\n", folder, file);
+        sleep_ms(1000);
+    }
+
+
     while (true) {
+        sleep_ms(5000);
+        Speaker::queryActiveSong(&folder, &file);
+        printf("Folder: %d, Song: %d\n", folder, file);
     }
 }

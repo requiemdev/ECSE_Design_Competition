@@ -74,28 +74,36 @@ uint8_t const * tud_descriptor_device_cb(void)
 //--------------------------------------------------------------------+
 enum
 {
-  ITF_NUM_AUDIO_CONTROL = 0,
-  ITF_NUM_AUDIO_STREAMING,
+  ITF_NUM_CDC = 0,           // CDC control interface
+  ITF_NUM_CDC_DATA,          // CDC data interface
+  ITF_NUM_AUDIO_CONTROL,     // Audio control interface
+  ITF_NUM_AUDIO_STREAMING,   // Audio streaming interface
   ITF_NUM_TOTAL
 };
 
-#define CONFIG_TOTAL_LEN    	(TUD_CONFIG_DESC_LEN + CFG_TUD_AUDIO * TUD_AUDIO_MIC_ONE_CH_DESC_LEN)
+#define CONFIG_TOTAL_LEN    	(TUD_CONFIG_DESC_LEN + TUD_CDC_DESC_LEN + CFG_TUD_AUDIO * TUD_AUDIO_MIC_ONE_CH_DESC_LEN)
 
 #if CFG_TUSB_MCU == OPT_MCU_LPC175X_6X || CFG_TUSB_MCU == OPT_MCU_LPC177X_8X || CFG_TUSB_MCU == OPT_MCU_LPC40XX
 // LPC 17xx and 40xx endpoint type (bulk/interrupt/iso) are fixed by its number
 // 0 control, 1 In, 2 Bulk, 3 Iso, 4 In etc ...
 #define EPNUM_AUDIO   0x03
 #else
-#define EPNUM_AUDIO   0x01
+#define EPNUM_AUDIO   0x03
 #endif
 
 uint8_t const desc_configuration[] =
 {
     // Interface count, string index, total length, attribute, power in mA
-    TUD_CONFIG_DESCRIPTOR(1, ITF_NUM_TOTAL, 0, CONFIG_TOTAL_LEN, 0x00, 100),
+    TUD_CONFIG_DESCRIPTOR(ITF_NUM_TOTAL, ITF_NUM_TOTAL, 0, CONFIG_TOTAL_LEN, 0x00, 100),
 
+    // CDC Descriptor
+    TUD_CDC_DESCRIPTOR(ITF_NUM_CDC, 0, 0x82, 8, 0x01, 0x81, 64),
     // Interface number, string index, EP Out & EP In address, EP size
-    TUD_AUDIO_MIC_ONE_CH_DESCRIPTOR(/*_itfnum*/ ITF_NUM_AUDIO_CONTROL, /*_stridx*/ 0, /*_nBytesPerSample*/ CFG_TUD_AUDIO_FUNC_1_N_BYTES_PER_SAMPLE_TX, /*_nBitsUsedPerSample*/ CFG_TUD_AUDIO_FUNC_1_N_BYTES_PER_SAMPLE_TX*8, /*_epin*/ 0x80 | EPNUM_AUDIO, /*_epsize*/ CFG_TUD_AUDIO_EP_SZ_IN)
+  TUD_AUDIO_MIC_ONE_CH_DESCRIPTOR(
+      ITF_NUM_AUDIO_CONTROL, 0,
+      CFG_TUD_AUDIO_FUNC_1_N_BYTES_PER_SAMPLE_TX,
+      CFG_TUD_AUDIO_FUNC_1_N_BYTES_PER_SAMPLE_TX*8,
+      0x80 | EPNUM_AUDIO, CFG_TUD_AUDIO_EP_SZ_IN)
 };
 
 // Invoked when received GET CONFIGURATION DESCRIPTOR

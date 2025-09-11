@@ -127,6 +127,7 @@ int main()
 
     while (true) {
         usb_microphone_task();
+        printf("going through serial...");
         // sleep_ms(5000);
         // Speaker::queryActiveSong(&folder, &file);
         // printf("Folder: %d, Song: %d\n", folder, file);

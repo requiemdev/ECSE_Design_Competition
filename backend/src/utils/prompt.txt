@@ -1,0 +1,3 @@
+Select a category from the following based on given visual and verbal inputs:
+Angry, Happy, Sad, Fear, Surprised, Neutral
+You are to weight the verbal inputs more than visual. Only answer with the selected category.

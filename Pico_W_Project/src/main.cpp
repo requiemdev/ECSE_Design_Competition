@@ -83,12 +83,9 @@ int main()
 
     multicore_launch_core1(mic_core);
 
-    uint8_t d;
-    uint8_t negative = 0;
     while (true) {
         int8_t c = stdio_getchar_timeout_us(10);
-        if ((c != PICO_ERROR_TIMEOUT) && (c != 0)) {
-            printf("received packet %d\n", c);
+        if (c != PICO_ERROR_TIMEOUT) {
             MainEvent::onByteReceivedFromLaptop(c);
         }
     }

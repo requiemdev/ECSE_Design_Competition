@@ -1,1 +1,17 @@
 /Pico_W_Project/build
+/Pico_W_Project/build
+*.map
+Pico_W_Project/build/.ninja_deps
+Pico_W_Project/build/.ninja_log
+Pico_W_Project/build/bs2_default.elf.map
+Pico_W_Project/build/build.ninja
+Pico_W_Project/build/generated/pico_base/pico/config_autogen.h
+Pico_W_Project/build/pico-sdk/src/rp2040/boot_stage2/bs2_default.dis
+Pico_W_Project/build/pico-sdk/src/rp2040/boot_stage2/bs2_default.elf
+Pico_W_Project/build/pico-sdk/src/rp2040/boot_stage2/bs2_default_padded_checksummed.S
+Pico_W_Project/build/Pico_W.bin
+Pico_W_Project/build/Pico_W.dis
+Pico_W_Project/build/Pico_W.elf
+Pico_W_Project/build/Pico_W.elf.map
+Pico_W_Project/build/Pico_W.hex
+Pico_W_Project/build/Pico_W.uf2

@@ -1,6 +1,3 @@
-# Created by https://www.toptal.com/developers/gitignore/api/python,c,c++,cmake
-# Edit at https://www.toptal.com/developers/gitignore?templates=python,c,c++,cmake
-
 ### C ###
 # Prerequisites
 *.d

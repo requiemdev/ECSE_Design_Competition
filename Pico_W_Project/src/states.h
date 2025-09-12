@@ -3,8 +3,7 @@
 
 enum State {
     SLEEP,
-    WAIT,
-    TRANSMIT
+    LISTENING
 };
 
 #endif // STATES_H

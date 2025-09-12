@@ -48,7 +48,6 @@ void MainEvent::onSongTimerDepletion() {
 void mic_core() {
     while (1) {
         usb_microphone_task();
-        printf("%s", "second core working!\n");
     }
 }
 
@@ -86,8 +85,12 @@ int main()
 
     uint8_t i = 1;
     MainEvent::onByteReceivedFromLaptop(1);
+    char g[100];
+    int j;
     while (true) {
-        MainEvent::onByteReceivedFromLaptop(-2);
-        i = (i + 1) % 3;
+        scanf("%s", j);
+        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+        scanf("%s", j);
+        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
     }
 }

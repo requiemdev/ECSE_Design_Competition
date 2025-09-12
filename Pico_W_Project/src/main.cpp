@@ -85,12 +85,14 @@ int main()
 
     uint8_t i = 1;
     MainEvent::onByteReceivedFromLaptop(1);
-    char g[100];
-    int j;
     while (true) {
-        scanf("%s", j);
-        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
-        scanf("%s", j);
-        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+        int c = stdio_getchar_timeout_us(10);
+        if ((c != PICO_ERROR_TIMEOUT) && (c != 0)) {
+            int d = c - '0';
+            printf("received packet %d", d);
+            if ((0 < d) && (d < 5)) {
+                MainEvent::onByteReceivedFromLaptop(d);
+            }
+        }
     }
 }

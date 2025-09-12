@@ -1,5 +1,6 @@
 // Pico Defines
 #include "pico/cyw43_arch.h"
+#include "pico/multicore.h"
 
 // C++ Defines
 #include "common.h"
@@ -36,59 +37,19 @@ void MainEvent::initialiseMCU() {
     microphone_setup();
 }
 
-void MainEvent::onByteReceivedFromMicrophone(uint8_t byte) {
-    switch (current_state) {
-        case State::SLEEP:
-            // checkInputForJarvis();
-            break;
-        
-        case State::WAIT: 
-            current_state = State::TRANSMIT;   
-            //startLaptopTransmission();
-        
-            // A command has been received so stop the timer 
-            //  which waits for a command.
-            Timer::stopWaitForCommandTimer();  
-        
-        case State::TRANSMIT:
-            // Send byte to laptop to interpret
-            //transferByteToLaptop(byte);
-            Timer::startLaptopTransmissionTimer();
-    }
-}
-
-void MainEvent::onJarvisVoiceDetected() {
-    
-    // Transition to WAIT state while waiting for the next voice transmission
-    current_state = State::WAIT;
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
-    Timer::startWaitForCommandTimer();
-}
-
 void inline MainEvent::onByteReceivedFromLaptop(int8_t b) {
     Command::runCommandFromByte(b);
 }
 
-void MainEvent::onWaitForCommandTimerDepletion() {
-    current_state = State::SLEEP;
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
-    Timer::stopLaptopTransmissionTimer();
-}
-
-
-void MainEvent::onLaptopTransmissionTimerDepletion() {
-    // Transition to WAIT state while waiting for the next 
-    //  voice transmission
-    current_state = State::WAIT;
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
-    
-    Timer::startWaitForCommandTimer();
-    //stopLaptopTransmission();
-    }
-
-
 void MainEvent::onSongTimerDepletion() {
     Speaker::stopSong();
+}
+
+void mic_core() {
+    while (1) {
+        usb_microphone_task();
+        printf("%s", "second core working!\n");
+    }
 }
 
 int main()
@@ -99,17 +60,12 @@ int main()
     // Have some code to simulate functions being called
 
     // sleep_ms(5000);
-    // MainEvent::onJarvisVoiceDetected();
-
-    // sleep_ms(5000);
-    // MainEvent::onJarvisVoiceDetected();
     // MainEvent::onByteReceivedFromLaptop(1);
     // sleep_ms(2500);
     // MainEvent::onByteReceivedFromLaptop(CommandIndex::STOP_SONG);
     
     // for (uint8_t i=1; i<6; i++) {
     //     sleep_ms(5000);
-    //     MainEvent::onJarvisVoiceDetected();
     //     MainEvent::onByteReceivedFromLaptop(i);
     // }
 
@@ -124,12 +80,14 @@ int main()
     //     sleep_ms(1000);
     // }
 
+    // printf("going through serial...");
 
+    multicore_launch_core1(mic_core);
+
+    uint8_t i = 1;
+    MainEvent::onByteReceivedFromLaptop(1);
     while (true) {
-        usb_microphone_task();
-        printf("going through serial...");
-        // sleep_ms(5000);
-        // Speaker::queryActiveSong(&folder, &file);
-        // printf("Folder: %d, Song: %d\n", folder, file);
+        MainEvent::onByteReceivedFromLaptop(-2);
+        i = (i + 1) % 3;
     }
 }

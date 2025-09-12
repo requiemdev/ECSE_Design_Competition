@@ -70,6 +70,7 @@ target_link_libraries(Pico_W
         hardware_dma
         tinyusb_device 
         tinyusb_board 
+        pico_multicore
         )
 
 pico_add_extra_outputs(Pico_W)

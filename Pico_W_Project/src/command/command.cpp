@@ -3,6 +3,8 @@
 #include "command_list.h"
 #include "../speaker/speaker.h"
 
+#include "pico/cyw43_arch.h"
+
 void Command::runCommandFromByte(int8_t byte) {
     // Play a song if byte > 0
     if (byte > 3) {
@@ -17,6 +19,12 @@ void Command::runCommandFromByte(int8_t byte) {
     switch (byte) {
         case CommandIndex::STOP_SONG:
             Speaker::stopSong();
-            return;          
+            return;        
+        case CommandIndex::WAKE_UP_TOY:
+            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+            return; 
+        case CommandIndex::SLEEP_TOY:
+            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+            return; 
     }
 }

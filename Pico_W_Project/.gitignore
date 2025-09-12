@@ -73,4 +73,7 @@ CMakeUserPresets.json
 .history
 .ionide
 
+# Build folder files
+.build/
+
 # End of https://www.toptal.com/developers/gitignore/api/c++,cmake,visualstudiocode

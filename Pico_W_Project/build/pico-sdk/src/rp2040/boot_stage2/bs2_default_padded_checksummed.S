@@ -1,4 +1,4 @@
-// Padded and checksummed version of: C:/Users/vicke/Documents/COMPSYS209/ESCE design comp/DESIGN_COMP/ECSE_Design_Competition/Pico_W_Project/build/pico-sdk/src/rp2040/boot_stage2/bs2_default.bin
+// Padded and checksummed version of: C:/Users/quila/Local_Projects/ECSE/ECSE Design Competition/ECSE_Microphone/ECSE_Design_Competition/Pico_W_Project/build/pico-sdk/src/rp2040/boot_stage2/bs2_default.bin
 
 .cpu cortex-m0plus
 .thumb

@@ -99,6 +99,11 @@ int main()
     // Set the PWM running
     pwm_set_enabled(slice_num, true);
 
+    // Testing a gpio pin (#10)
+    gpio_init(10);
+    gpio_set_dir(10, GPIO_OUT);
+    gpio_put(10, 1);
+
     multicore_launch_core1(mic_core);
 
     while (true) {

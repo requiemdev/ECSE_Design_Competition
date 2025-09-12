@@ -86,18 +86,10 @@ int main()
     uint8_t d;
     uint8_t negative = 0;
     while (true) {
-        int c = stdio_getchar_timeout_us(10);
+        int8_t c = stdio_getchar_timeout_us(10);
         if ((c != PICO_ERROR_TIMEOUT) && (c != 0)) {
-            d = c - '0';
-            printf("received packet %c", c);
-            if (c == '-') {
-                negative = 1;
-            } else if ((0 < d) && (d < 5) && (negative)) {
-                MainEvent::onByteReceivedFromLaptop(-d);
-                negative = 0;
-            } else if ((0 < d) && (d < 5)) {
-                MainEvent::onByteReceivedFromLaptop(d);
-            }
+            printf("received packet %d\n", c);
+            MainEvent::onByteReceivedFromLaptop(c);
         }
     }
 }

@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/c++,cmake,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++,cmake,visualstudiocode
 
+# Build folder files
+Pico_W_Project/build
+
 ### C++ ###
 # Prerequisites
 *.d
@@ -72,8 +75,5 @@ CMakeUserPresets.json
 # Ignore all local history of files
 .history
 .ionide
-
-# Build folder files
-.build/
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,cmake,visualstudiocode

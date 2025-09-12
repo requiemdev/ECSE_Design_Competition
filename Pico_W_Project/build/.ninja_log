@@ -117,3 +117,5 @@
 1386	2362	7793489564208686	CMakeFiles/Pico_W.dir/C_/Users/quila/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_cyw43_driver/cyw43_bus_pio_spi.c.obj	c971bcbd510a1195
 1397	2870	7793489564320611	CMakeFiles/Pico_W.dir/C_/Users/quila/.pico-sdk/sdk/2.1.0/lib/cyw43-driver/src/cyw43_ll.c.obj	59af502dc991a6ea
 2870	3217	7793489579038315	Pico_W.elf	35df3acea1e2bd84
+24	232	7793492179459558	CMakeFiles/Pico_W.dir/src/main.cpp.obj	26a299ab9c56b156
+233	655	7793492181557050	Pico_W.elf	35df3acea1e2bd84

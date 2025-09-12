@@ -32,7 +32,7 @@ def main():
                 print("Emotion detected: " + emotion)
 
                 print("Awaiting OpenAi Response")
-                res = OpenAiResponse.openAiResponse(emotion, "what a great day")
+                res = OpenAiResponse.openAiResponse(emotion, speech)
                 print(res)
     except KeyboardInterrupt:
         # ser.close()

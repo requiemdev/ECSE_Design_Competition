@@ -2,9 +2,11 @@ import openwakeword
 import pyaudio
 import numpy as np
 
+openwakeword.utils.download_models()
 
 def listenForWakeWord(threshold = 0.95):
-    model = openwakeword.Model(wakeword_models=["hey jarvis"])
+    model = openwakeword.Model(wakeword_models=["hey jarvis"]
+)
     # Model expects 1x16x96 sample size
     CHUNK = 1536
     FORMAT = pyaudio.paInt16
@@ -18,7 +20,8 @@ def listenForWakeWord(threshold = 0.95):
                     channels=CHANNELS,
                     rate=RATE,
                     input=True,
-                    frames_per_buffer=CHUNK)
+                    frames_per_buffer=CHUNK,
+                    input_device_index=0)
 
     print("Listening for Hey Jarvis...")
 
@@ -45,3 +48,5 @@ def listenForWakeWord(threshold = 0.95):
         stream.stop_stream()
         stream.close()
         p.terminate()
+
+listenForWakeWord()

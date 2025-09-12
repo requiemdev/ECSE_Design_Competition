@@ -48,5 +48,3 @@ def listenForWakeWord(threshold = 0.95):
         stream.stop_stream()
         stream.close()
         p.terminate()
-
-listenForWakeWord()

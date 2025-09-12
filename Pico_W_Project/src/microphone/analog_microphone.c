@@ -195,8 +195,9 @@ int analog_microphone_read(int16_t* buffer, size_t samples) {
     analog_mic.raw_buffer_read_index++;
 
     for (int i = 0; i < samples; i++) {
-        *out++ = *in++ - bias;
+        int32_t centered = (int32_t)in[i] - bias;
+        // Scale 12-bit output to 16-bit range
+        out[i] = (int16_t)(centered << 3);
     }
-
     return samples;
 }

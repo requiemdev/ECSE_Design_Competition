@@ -25,6 +25,7 @@ extern "C" {
 
 // Temporary includes for testing
 #include "command/command_list.h"
+#include "hardware/pwm.h"
 
 // Global Variables
 volatile bool song_playing = true;
@@ -80,6 +81,23 @@ int main()
     // }
 
     // printf("going through serial...");
+
+    // PWM Testing
+
+    gpio_set_function(0, GPIO_FUNC_PWM);
+    gpio_set_function(1, GPIO_FUNC_PWM);
+
+    // Find out which PWM slice is connected to GPIO 0 (it's slice 0)
+    uint slice_num = pwm_gpio_to_slice_num(0);
+
+    // Set period of 4 cycles (0 to 3 inclusive)
+    pwm_set_wrap(slice_num, 3);
+    // Set channel A output high for one cycle before dropping
+    pwm_set_chan_level(slice_num, PWM_CHAN_A, 1);
+    // Set initial B output high for three cycles before dropping
+    pwm_set_chan_level(slice_num, PWM_CHAN_B, 3);
+    // Set the PWM running
+    pwm_set_enabled(slice_num, true);
 
     multicore_launch_core1(mic_core);
 

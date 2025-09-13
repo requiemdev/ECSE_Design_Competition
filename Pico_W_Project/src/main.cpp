@@ -24,7 +24,6 @@ extern "C" {
 }
 #endif
 
-
 // Temporary includes for testing
 
 
@@ -71,12 +70,12 @@ void MainEvent::onSongStarted() {
 
 void MainEvent::onSongStopped() {
     Timer::stopSongTimer();
-    song_playing = false;
     if (current_state == State::SLEEP) {
         Oled::displayText(Oled_Message::DETECTING);
     } else {
         Oled::displayText(Oled_Message::LISTENING);
     }
+    song_playing = false;
 }
 
 void mic_core() {

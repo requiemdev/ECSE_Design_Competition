@@ -403,22 +403,22 @@ Disassembly of section .text:
 10000378 <_ZN9MainEvent13onSongStoppedEv>:
 10000378:	b510      	push	{r4, lr}
 1000037a:	f000 f9e9 	bl	10000750 <_ZN5Timer13stopSongTimerEv>
-1000037e:	2200      	movs	r2, #0
-10000380:	4b06      	ldr	r3, [pc, #24]	@ (1000039c <_ZN9MainEvent13onSongStoppedEv+0x24>)
-10000382:	701a      	strb	r2, [r3, #0]
-10000384:	4b06      	ldr	r3, [pc, #24]	@ (100003a0 <_ZN9MainEvent13onSongStoppedEv+0x28>)
-10000386:	781b      	ldrb	r3, [r3, #0]
-10000388:	2b00      	cmp	r3, #0
-1000038a:	d103      	bne.n	10000394 <_ZN9MainEvent13onSongStoppedEv+0x1c>
-1000038c:	4805      	ldr	r0, [pc, #20]	@ (100003a4 <_ZN9MainEvent13onSongStoppedEv+0x2c>)
-1000038e:	f000 fc47 	bl	10000c20 <_ZN4Oled11displayTextEPc>
+1000037e:	4b07      	ldr	r3, [pc, #28]	@ (1000039c <_ZN9MainEvent13onSongStoppedEv+0x24>)
+10000380:	781b      	ldrb	r3, [r3, #0]
+10000382:	2b00      	cmp	r3, #0
+10000384:	d106      	bne.n	10000394 <_ZN9MainEvent13onSongStoppedEv+0x1c>
+10000386:	4806      	ldr	r0, [pc, #24]	@ (100003a0 <_ZN9MainEvent13onSongStoppedEv+0x28>)
+10000388:	f000 fc4a 	bl	10000c20 <_ZN4Oled11displayTextEPc>
+1000038c:	2200      	movs	r2, #0
+1000038e:	4b05      	ldr	r3, [pc, #20]	@ (100003a4 <_ZN9MainEvent13onSongStoppedEv+0x2c>)
+10000390:	701a      	strb	r2, [r3, #0]
 10000392:	bd10      	pop	{r4, pc}
 10000394:	4804      	ldr	r0, [pc, #16]	@ (100003a8 <_ZN9MainEvent13onSongStoppedEv+0x30>)
 10000396:	f000 fc43 	bl	10000c20 <_ZN4Oled11displayTextEPc>
-1000039a:	e7fa      	b.n	10000392 <_ZN9MainEvent13onSongStoppedEv+0x1a>
-1000039c:	200030ef 	.word	0x200030ef
-100003a0:	200030eb 	.word	0x200030eb
-100003a4:	200011cc 	.word	0x200011cc
+1000039a:	e7f7      	b.n	1000038c <_ZN9MainEvent13onSongStoppedEv+0x14>
+1000039c:	200030eb 	.word	0x200030eb
+100003a0:	200011cc 	.word	0x200011cc
+100003a4:	200030ef 	.word	0x200030ef
 100003a8:	200011c0 	.word	0x200011c0
 
 100003ac <main>:

@@ -199,6 +199,5 @@ int analog_microphone_read(int16_t* buffer, size_t samples) {
         // Scale 12-bit output to 16-bit range
         out[i] = (int16_t)(centered << 3);
     }
-
     return samples;
 }

@@ -21,9 +21,9 @@ namespace Speaker {
     *  The value in index i = song count in folder number i+1
     *  These defines will change depending on what songs are in the speaker memory
     */
-    #define USED_FOLDER_COUNT 2
-    #define FOLDER_SONG_COUNTS {3, 2}
-    #define TOTAL_SONGS 5
+    #define USED_FOLDER_COUNT 7
+    #define FOLDER_SONG_COUNTS {5, 5, 5, 5, 5, 5, 3}
+    #define TOTAL_SONGS 33
 
     /** Initialise the uart peripherals of the speaker and
      *   all other initialisations to be able to use the speaker.
@@ -124,7 +124,8 @@ namespace Speaker {
     void playRandomSongInFolder(uint8_t folder);
 
     /** Loop playback in the specified folder. 
-     *  - Folders start from 1 like in the speaker itself
+     *  - Folders start from 1 like in the speaker itself.
+     *  - NOTE: This makes the queryActiveSong() function not work while in shuffle mode.
      */
     void folderCycle(uint8_t folder);
 

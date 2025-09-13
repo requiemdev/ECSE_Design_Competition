@@ -22,6 +22,12 @@ void Command::runCommandFromByte(int8_t byte) {
         case CommandIndex::SLEEP_TOY:
             cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
             return; 
+        case CommandIndex::PAUSE_SONG:
+            Speaker::pauseSong();
+            return;
+        case CommandIndex::CONTINUE_SONG:
+            Speaker::continueSong();
+            return;    
         case CommandIndex::NEXT_SONG:
             Speaker::nextSong();
             return;

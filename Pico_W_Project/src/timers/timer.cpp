@@ -10,7 +10,7 @@ int64_t Timer::songTimerTrigger(__unused alarm_id_t id, __unused void *user_data
 
 void Timer::startSongTimer() {
     Timer::stopSongTimer();
-    songTimer = add_alarm_in_ms(SONG_TIMER_DURATION_MS, Timer::songTimerTrigger, NULL, true);
+    songTimer = add_alarm_in_ms(SONG_TIMER_DURATION_S * (uint32_t(1000)), Timer::songTimerTrigger, NULL, true);
 }
 
 void Timer::stopSongTimer() {

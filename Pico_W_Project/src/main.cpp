@@ -9,6 +9,8 @@
 #include "main_event.h"
 #include "timers/timer.h"
 #include "command/command.h"
+#include "oled/oled.h"
+#include "oled/oled_messages.h"
 
 // C Defines
 #ifdef __cplusplus
@@ -17,8 +19,6 @@ extern "C" {
 
 #include "microphone.h"
 #include "usb_microphone.h"
-#include "oled/ssd1306.h"
-#include "oled/font.h"
 
 #ifdef __cplusplus
 }
@@ -26,11 +26,10 @@ extern "C" {
 
 
 // Temporary includes for testing
-#include "command/command_list.h"
-#include "hardware/i2c.h"
+
 
 // Global Variables
-volatile bool song_playing = true;
+volatile bool song_playing = false;
 volatile State current_state = State::SLEEP;
 
 void MainEvent::initialiseMCU() {
@@ -38,6 +37,22 @@ void MainEvent::initialiseMCU() {
     Speaker::initialise(SPEAKER_DEFAULT_VOLUME);
     cyw43_arch_init();
     microphone_setup();
+}
+
+void MainEvent::onToyWakeup() {
+    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+    current_state = State::LISTENING;
+    if (!song_playing) {
+        Oled::displayText(Oled_Message::LISTENING);
+    }
+}
+
+void MainEvent::onToySleep() {
+    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+    current_state = State::SLEEP;
+    if (!song_playing) {
+        Oled::displayText(Oled_Message::DETECTING);
+    }
 }
 
 void inline MainEvent::onByteReceivedFromLaptop(int8_t b) {
@@ -48,21 +63,27 @@ void MainEvent::onSongTimerDepletion() {
     Speaker::stopSong();
 }
 
+void MainEvent::onSongStarted() {
+    Timer::startSongTimer();
+    song_playing = true;
+    Oled::displayText(Oled_Message::PLAYING);
+}
+
+void MainEvent::onSongStopped() {
+    Timer::stopSongTimer();
+    song_playing = false;
+    if (current_state == State::SLEEP) {
+        Oled::displayText(Oled_Message::DETECTING);
+    } else {
+        Oled::displayText(Oled_Message::LISTENING);
+    }
+}
+
 void mic_core() {
     while (1) {
         usb_microphone_task();
     }
 }
-
-// Test code
-void setup_gpios(void) {
-    i2c_init(i2c1, 400000);
-    gpio_set_function(2, GPIO_FUNC_I2C);
-    gpio_set_function(3, GPIO_FUNC_I2C);
-    gpio_pull_up(2);
-    gpio_pull_up(3);
-}
-
 
 int main()
 {
@@ -71,16 +92,8 @@ int main()
 
     multicore_launch_core1(mic_core);
 
-    // OLED Testing
-    char s[] = "Detecting";
-    setup_gpios();
-    ssd1306_t disp;
-    disp.external_vcc=false;
-    ssd1306_init(&disp, 128, 64, 0x3C, i2c1);
-    ssd1306_clear(&disp);
-    ssd1306_draw_string_with_font(&disp, 8, 24, 2, font_8x5, s);
-    // Make functions for "detecting", "listening", "playing"
-    ssd1306_show(&disp);
+    Oled::initialise(OLED_PIN_1, OLED_PIN_2);
+    Oled::displayText(Oled_Message::DETECTING);
 
     while (true) {
         int8_t c = stdio_getchar_timeout_us(10);

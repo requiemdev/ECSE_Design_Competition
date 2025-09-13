@@ -1,30 +1,23 @@
 #ifndef SPEAKER_H
 #define SPEAKER_H
 
+#define SPEAKER_BAUD_RATE 9600
+
+// The number of bytes sent by the speaker every time it sends data to the MCU
+#define SPEAKER_UART_RX_BYTE_COUNT 10
+
+/** The maximum volume allowed by the speaker */
+#define SPEAKER_MAX_VOLUME 30
+
+/* FOLDER_SONG_COUNTS used for random song selector.
+*  The value in index i = song count in folder number i+1
+*  These defines will change depending on what songs are in the speaker memory
+*/
+#define USED_FOLDER_COUNT 7
+#define FOLDER_SONG_COUNTS {5, 5, 5, 5, 5, 5, 3}
+#define TOTAL_SONGS 33
+
 namespace Speaker {
-
-    #define SPEAKER_BAUD_RATE 9600
-    #define SPEAKER_UART_ID uart1
-
-    // Use pins 4 and 5 for UART1
-    // Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments
-    #define SPEAKER_UART_TX_PIN 4
-    #define SPEAKER_UART_RX_PIN 5
-
-    // The number of bytes sent by the speaker every time it sends data to the MCU
-    #define SPEAKER_UART_RX_BYTE_COUNT 10
-
-    /** The maximum volume allowed by the speaker */
-    #define SPEAKER_MAX_VOLUME 30
-
-    /* FOLDER_SONG_COUNTS used for random song selector.
-    *  The value in index i = song count in folder number i+1
-    *  These defines will change depending on what songs are in the speaker memory
-    */
-    #define USED_FOLDER_COUNT 7
-    #define FOLDER_SONG_COUNTS {5, 5, 5, 5, 5, 5, 3}
-    #define TOTAL_SONGS 33
-
     /** Initialise the uart peripherals of the speaker and
      *   all other initialisations to be able to use the speaker.
      *  Volume = volume which the speaker should be set to <= 30

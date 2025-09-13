@@ -8,6 +8,11 @@ namespace MainEvent {
     */
     void initialiseMCU();
 
+    /** This happens when the toy starts listening and controls wake up movements */
+    void onToyWakeup();
+
+    /** This happens when the toy stops listening and reverses wake up movements */
+    void onToySleep();
 
     /** This happens when the MCU receives a byte from the laptop. */
     void onByteReceivedFromLaptop(int8_t byte);
@@ -17,6 +22,12 @@ namespace MainEvent {
     * commands heard.
     */
     void onSongTimerDepletion();
+
+    /** This code is executed when a song starts playing on the speaker */
+    void onSongStarted();
+
+    /** This code is executed when the currently playing song is stopped on the speaker */
+    void onSongStopped();
 
 }
 

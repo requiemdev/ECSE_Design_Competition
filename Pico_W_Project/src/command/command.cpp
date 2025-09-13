@@ -2,8 +2,7 @@
 #include "command.h"
 #include "command_list.h"
 #include "../speaker/speaker.h"
-
-#include "pico/cyw43_arch.h"
+#include "../main_event.h"
 
 void Command::runCommandFromByte(int8_t byte) {
     // Shuffle folder with value specifed (if in range)
@@ -17,10 +16,10 @@ void Command::runCommandFromByte(int8_t byte) {
             Speaker::stopSong();
             return;        
         case CommandIndex::WAKE_UP_TOY:
-            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+            MainEvent::onToyWakeup();   
             return; 
         case CommandIndex::SLEEP_TOY:
-            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+            MainEvent::onToySleep(); 
             return; 
         case CommandIndex::PAUSE_SONG:
             Speaker::pauseSong();

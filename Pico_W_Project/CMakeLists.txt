@@ -42,6 +42,7 @@ add_executable(Pico_W
         src/command/command.cpp
         src/pin_output/pin_functions.cpp
         src/oled/ssd1306.c
+        src/oled/oled.cpp
         src/microphone/microphone.c
         src/microphone/usb_descriptors.c
         src/microphone/usb_microphone.c

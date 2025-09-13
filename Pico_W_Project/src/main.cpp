@@ -25,7 +25,9 @@ extern "C" {
 
 // Temporary includes for testing
 #include "command/command_list.h"
-#include "hardware/pwm.h"
+#include "pin_output/gpio.h"
+#include "pin_output/pwm_functions.h"
+
 
 // Global Variables
 volatile bool song_playing = true;
@@ -88,21 +90,12 @@ int main()
     gpio_set_function(1, GPIO_FUNC_PWM);
 
     // Find out which PWM slice is connected to GPIO 0 (it's slice 0)
-    uint slice_num = pwm_gpio_to_slice_num(0);
-
-    pwm_config config = pwm_get_default_config();
-    pwm_config_set_wrap(&config, 1000);
-    pwm_init(slice_num, &config, true);
-    // pwm_set_wrap(slice_num, 8);
-    pwm_set_gpio_level(0, 800);
-
-    // Set the PWM running
-    pwm_set_enabled(slice_num, true);
+    PWM::pwm_init(0);
+    PWM::pwm_enable_with_voltage(0, 2.4);
 
     // Testing a gpio pin (#10)
-    gpio_init(10);
-    gpio_set_dir(10, GPIO_OUT);
-    gpio_put(10, 1);
+    GPIO::gpio_init_with_dir(10, 1);
+    GPIO::gpio_set(10, 1);
 
     multicore_launch_core1(mic_core);
 

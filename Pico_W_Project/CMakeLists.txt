@@ -44,6 +44,7 @@ add_executable(Pico_W
         src/microphone/usb_descriptors.c
         src/microphone/usb_microphone.c
         src/microphone/analog_microphone.c
+        src/pin_output/pin_functions.cpp
         )
 
 pico_set_program_name(Pico_W "Pico W")

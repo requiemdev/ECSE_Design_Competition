@@ -59,44 +59,6 @@ int main()
     MainEvent::initialiseMCU();
     current_state = State::SLEEP;
 
-    // Have some code to simulate functions being called
-
-    // sleep_ms(5000);
-    // MainEvent::onByteReceivedFromLaptop(1);
-    // sleep_ms(2500);
-    // MainEvent::onByteReceivedFromLaptop(CommandIndex::STOP_SONG);
-    
-    // for (uint8_t i=1; i<6; i++) {
-    //     sleep_ms(5000);
-    //     MainEvent::onByteReceivedFromLaptop(i);
-    // }
-
-    // sleep_ms(10000);
-
-    // uint8_t folder, file;
-    // for (uint8_t i=1; i<6; i++) {
-    //     MainEvent::onByteReceivedFromLaptop(i);
-    //     sleep_ms(1000);
-    //     Speaker::queryActiveSong(&folder, &file);
-    //     printf("Folder: %d, Song: %d\n", folder, file);
-    //     sleep_ms(1000);
-    // }
-
-    // printf("going through serial...");
-
-    // PWM Testing
-
-    gpio_set_function(0, GPIO_FUNC_PWM);
-    gpio_set_function(1, GPIO_FUNC_PWM);
-
-    // Find out which PWM slice is connected to GPIO 0 (it's slice 0)
-    PWM::pwm_init(0);
-    PWM::pwm_enable_with_voltage(0, 2.4);
-
-    // Testing a gpio pin (#10)
-    GPIO::gpio_init_with_dir(10, 1);
-    GPIO::gpio_set(10, 1);
-
     multicore_launch_core1(mic_core);
 
     while (true) {

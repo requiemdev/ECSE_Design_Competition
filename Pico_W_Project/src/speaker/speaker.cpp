@@ -195,3 +195,7 @@ void Speaker::playRandomSongInFolder(uint8_t folder) {
     Speaker::playSong(folder, (rand() % songCounts[f_index]) + 1);
     Timer::startSongTimer();
 }
+
+void Speaker::folderCycle(uint8_t folder) {
+    sendCommand(0x17, 0x00, folder);
+}

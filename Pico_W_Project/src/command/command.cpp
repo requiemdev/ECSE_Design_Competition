@@ -6,13 +6,9 @@
 #include "pico/cyw43_arch.h"
 
 void Command::runCommandFromByte(int8_t byte) {
-    // Play a song if byte > 0
-    if (byte > 3) {
-        Speaker::playSong(2, byte - 3);
-        return;
-    } else if (byte > 0) {
-        Speaker::playSong(1, byte);
-        return;
+    // Shuffle folder with value specifed (if in range)
+    if ((0 < byte) && (byte <= USED_FOLDER_COUNT)) {
+        Speaker::folderCycle(byte);
     }
     
     // Do something else if byte < 0

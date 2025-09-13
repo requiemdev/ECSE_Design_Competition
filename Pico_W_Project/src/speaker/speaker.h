@@ -123,6 +123,11 @@ namespace Speaker {
      */
     void playRandomSongInFolder(uint8_t folder);
 
+    /** Loop playback in the specified folder. 
+     *  - Folders start from 1 like in the speaker itself
+     */
+    void folderCycle(uint8_t folder);
+
 }
 
 #endif // SPEAKER_H

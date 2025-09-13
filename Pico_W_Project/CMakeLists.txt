@@ -40,11 +40,12 @@ add_executable(Pico_W
         src/speaker/speaker.cpp 
         src/timers/timer.cpp 
         src/command/command.cpp
+        src/pin_output/pin_functions.cpp
+        src/oled/ssd1306.c
         src/microphone/microphone.c
         src/microphone/usb_descriptors.c
         src/microphone/usb_microphone.c
         src/microphone/analog_microphone.c
-        src/pin_output/pin_functions.cpp
         )
 
 pico_set_program_name(Pico_W "Pico W")
@@ -66,6 +67,7 @@ target_include_directories(Pico_W PRIVATE
 
 # Add any user requested libraries
 target_link_libraries(Pico_W 
+        pico_stdlib
         pico_cyw43_arch_none
         hardware_adc
         hardware_dma
@@ -73,6 +75,8 @@ target_link_libraries(Pico_W
         tinyusb_board 
         pico_multicore
         hardware_pwm
+        hardware_i2c
+        pico_binary_info
         )
 
 pico_add_extra_outputs(Pico_W)

@@ -304,3 +304,13 @@ void ssd1306_show(ssd1306_t *p) {
 
     fancy_write(p->i2c_i, p->address, p->buffer-1, p->bufsize+1, "ssd1306_show");
 }
+
+void ssd1306_draw_image(ssd1306_t *p, const uint8_t *image, uint16_t width, uint16_t height) {
+    uint32_t pages = height / 8;
+    for (uint32_t page = 0; page < pages; page++) {
+        for (uint32_t x = 0; x < width; x++) {
+            // Each page is 8 vertical pixels, each byte is a column in that page
+            p->buffer[page * width + x] = image[page * width + x];
+        }
+    }
+}

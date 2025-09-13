@@ -1,5 +1,6 @@
 // C++ includes
 #include "oled.h"
+#include "ironman.h"
 
 oled_config oled;
 
@@ -21,5 +22,25 @@ void Oled::initialise(uint8_t gpio1, uint8_t gpio2) {
 void Oled::displayText(char text[]) {
     ssd1306_clear(&oled.disp);
     ssd1306_draw_string_with_font(&oled.disp, 8, 24, 2, OLED_FONT, text);
+    ssd1306_show(&oled.disp);
+}
+
+void Oled::displayIronMan() {
+    uint8_t mono[1024] = {0};
+
+    for (int x = 0; x < 128; x++) {
+        for (int page = 0; page < 8; page++) {
+            uint8_t byte = 0;
+            for (int bit = 0; bit < 8; bit++) {
+                int y = page * 8 + bit;
+                if (ironman[y * 128 + x])
+                    byte |= (1 << bit);
+            }
+            mono[page * 128 + x] = byte;
+        }
+    }
+
+    ssd1306_clear(&oled.disp);
+    ssd1306_draw_image(&oled.disp, mono, 128, 64);
     ssd1306_show(&oled.disp);
 }

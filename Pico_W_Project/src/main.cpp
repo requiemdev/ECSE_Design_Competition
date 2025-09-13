@@ -92,6 +92,8 @@ int main()
     multicore_launch_core1(mic_core);
 
     Oled::initialise(OLED_PIN_1, OLED_PIN_2);
+    Oled::displayIronMan();
+    sleep_ms(5000);
     Oled::displayText(Oled_Message::DETECTING);
 
     while (true) {

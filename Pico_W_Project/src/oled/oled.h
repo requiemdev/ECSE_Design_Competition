@@ -24,6 +24,7 @@ typedef struct {
 namespace Oled {
     void initialise(uint8_t gpio1, uint8_t gpio2);
     void displayText(char text[]);
+    void displayIronMan();
 }
 
 #endif // OLED_H

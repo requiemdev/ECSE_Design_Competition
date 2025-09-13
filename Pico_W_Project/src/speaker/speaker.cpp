@@ -107,13 +107,16 @@ void Speaker::continueSong() {
 
 void Speaker::nextSong() {
     Speaker::sendEmptyCommand(0x01);
-    current_song ++;
+    current_song = current_song % songCounts[current_folder - 1] + 1;
     Timer::startSongTimer();
 }
 
 void Speaker::previousSong() {
     Speaker::sendEmptyCommand(0x02);
-    current_song --;
+    current_song -= 1;
+    if (current_song == 0x00) {
+        current_song = songCounts[current_folder - 1];
+    }
     Timer::startSongTimer();
 }
 

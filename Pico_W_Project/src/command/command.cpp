@@ -26,5 +26,16 @@ void Command::runCommandFromByte(int8_t byte) {
         case CommandIndex::SLEEP_TOY:
             cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
             return; 
+        case CommandIndex::NEXT_SONG:
+            Speaker::nextSong();
+            return;
+        case CommandIndex::PREV_SONG:
+            Speaker::previousSong();
+            return;
+        case CommandIndex::QUERY_SONG:
+            uint8_t folder, song;
+            Speaker::queryActiveSong(&folder, &song);
+            printf("Folder = %d, Song = %d", folder, song);      
+            return;
     }
 }

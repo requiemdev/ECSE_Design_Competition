@@ -90,12 +90,12 @@ int main()
     // Find out which PWM slice is connected to GPIO 0 (it's slice 0)
     uint slice_num = pwm_gpio_to_slice_num(0);
 
-    // Set period of 4 cycles (0 to 3 inclusive)
-    pwm_set_wrap(slice_num, 3);
-    // Set channel A output high for one cycle before dropping
-    pwm_set_chan_level(slice_num, PWM_CHAN_A, 1);
-    // Set initial B output high for three cycles before dropping
-    pwm_set_chan_level(slice_num, PWM_CHAN_B, 3);
+    pwm_config config = pwm_get_default_config();
+    pwm_config_set_wrap(&config, 1000);
+    pwm_init(slice_num, &config, true);
+    // pwm_set_wrap(slice_num, 8);
+    pwm_set_gpio_level(0, 800);
+
     // Set the PWM running
     pwm_set_enabled(slice_num, true);
 

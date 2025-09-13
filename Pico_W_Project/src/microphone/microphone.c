@@ -20,6 +20,8 @@
 #include "tusb.h"
 #include "tusb_config.h"
 
+#include "../common.h"
+
 // variables
 uint16_t sample_buffer[SAMPLE_BUFFER_SIZE];
 volatile int samples_read = 0;
@@ -27,7 +29,7 @@ volatile int samples_read = 0;
 // configuration
 const struct analog_microphone_config config = {
     // GPIO to use for input, must be ADC compatible (GPIO 26 - 28)
-    .gpio = 26,
+    .gpio = MICROPHONE_INPUT_PIN,
 
     // bias voltage of microphone in volts
     //.bias_voltage = 1.25,

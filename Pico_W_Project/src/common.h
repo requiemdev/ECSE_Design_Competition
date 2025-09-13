@@ -5,12 +5,21 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 
+// Pins used (GPIO numbers)
+#define OLED_PIN_1 2
+#define OLED_PIN_2 3
+
+#define SPEAKER_UART_TX_PIN 4
+#define SPEAKER_UART_RX_PIN 5
+#define SPEAKER_UART_ID uart1
+
+#define MICROPHONE_INPUT_PIN 26
+
+
 /** The starting volume of the speaker module */
 #define SPEAKER_DEFAULT_VOLUME 30
 
 // Timer durations
-#define WAIT_FOR_COMMAND_TIMER_DURATION_MS 2500
-#define LAPTOP_TRANSMISSION_TIMER_DURATION_MS 5000
-#define SONG_TIMER_DURATION_MS 15000
+#define SONG_TIMER_DURATION_S 60
 
 #endif //COMMON_H

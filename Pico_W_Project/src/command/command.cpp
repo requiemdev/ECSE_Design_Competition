@@ -2,17 +2,12 @@
 #include "command.h"
 #include "command_list.h"
 #include "../speaker/speaker.h"
-
-#include "pico/cyw43_arch.h"
+#include "../main_event.h"
 
 void Command::runCommandFromByte(int8_t byte) {
-    // Play a song if byte > 0
-    if (byte > 3) {
-        Speaker::playSong(2, byte - 3);
-        return;
-    } else if (byte > 0) {
-        Speaker::playSong(1, byte);
-        return;
+    // Shuffle folder with value specifed (if in range)
+    if ((0 < byte) && (byte <= USED_FOLDER_COUNT)) {
+        Speaker::folderCycle(byte);
     }
     
     // Do something else if byte < 0
@@ -21,10 +16,27 @@ void Command::runCommandFromByte(int8_t byte) {
             Speaker::stopSong();
             return;        
         case CommandIndex::WAKE_UP_TOY:
-            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+            MainEvent::onToyWakeup();   
             return; 
         case CommandIndex::SLEEP_TOY:
-            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+            MainEvent::onToySleep(); 
             return; 
+        case CommandIndex::PAUSE_SONG:
+            Speaker::pauseSong();
+            return;
+        case CommandIndex::CONTINUE_SONG:
+            Speaker::continueSong();
+            return;    
+        case CommandIndex::NEXT_SONG:
+            Speaker::nextSong();
+            return;
+        case CommandIndex::PREV_SONG:
+            Speaker::previousSong();
+            return;
+        case CommandIndex::QUERY_SONG:
+            uint8_t folder, song;
+            Speaker::queryActiveSong(&folder, &song);
+            printf("Folder = %d, Song = %d", folder, song);      
+            return;
     }
 }

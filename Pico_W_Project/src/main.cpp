@@ -9,6 +9,8 @@
 #include "main_event.h"
 #include "timers/timer.h"
 #include "command/command.h"
+#include "oled/oled.h"
+#include "oled/oled_messages.h"
 
 // C Defines
 #ifdef __cplusplus
@@ -22,13 +24,11 @@ extern "C" {
 }
 #endif
 
-
 // Temporary includes for testing
-#include "command/command_list.h"
-#include "hardware/pwm.h"
+
 
 // Global Variables
-volatile bool song_playing = true;
+volatile bool song_playing = false;
 volatile State current_state = State::SLEEP;
 
 void MainEvent::initialiseMCU() {
@@ -38,12 +38,44 @@ void MainEvent::initialiseMCU() {
     microphone_setup();
 }
 
+void MainEvent::onToyWakeup() {
+    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+    current_state = State::LISTENING;
+    if (!song_playing) {
+        Oled::displayText(Oled_Message::LISTENING);
+    }
+}
+
+void MainEvent::onToySleep() {
+    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+    current_state = State::SLEEP;
+    if (!song_playing) {
+        Oled::displayText(Oled_Message::DETECTING);
+    }
+}
+
 void inline MainEvent::onByteReceivedFromLaptop(int8_t b) {
     Command::runCommandFromByte(b);
 }
 
 void MainEvent::onSongTimerDepletion() {
     Speaker::stopSong();
+}
+
+void MainEvent::onSongStarted() {
+    Timer::startSongTimer();
+    song_playing = true;
+    Oled::displayText(Oled_Message::PLAYING);
+}
+
+void MainEvent::onSongStopped() {
+    Timer::stopSongTimer();
+    if (current_state == State::SLEEP) {
+        Oled::displayText(Oled_Message::DETECTING);
+    } else {
+        Oled::displayText(Oled_Message::LISTENING);
+    }
+    song_playing = false;
 }
 
 void mic_core() {
@@ -57,49 +89,12 @@ int main()
     MainEvent::initialiseMCU();
     current_state = State::SLEEP;
 
-    // Have some code to simulate functions being called
-
-    // sleep_ms(5000);
-    // MainEvent::onByteReceivedFromLaptop(1);
-    // sleep_ms(2500);
-    // MainEvent::onByteReceivedFromLaptop(CommandIndex::STOP_SONG);
-    
-    // for (uint8_t i=1; i<6; i++) {
-    //     sleep_ms(5000);
-    //     MainEvent::onByteReceivedFromLaptop(i);
-    // }
-
-    // sleep_ms(10000);
-
-    // uint8_t folder, file;
-    // for (uint8_t i=1; i<6; i++) {
-    //     MainEvent::onByteReceivedFromLaptop(i);
-    //     sleep_ms(1000);
-    //     Speaker::queryActiveSong(&folder, &file);
-    //     printf("Folder: %d, Song: %d\n", folder, file);
-    //     sleep_ms(1000);
-    // }
-
-    // printf("going through serial...");
-
-    // PWM Testing
-
-    gpio_set_function(0, GPIO_FUNC_PWM);
-    gpio_set_function(1, GPIO_FUNC_PWM);
-
-    // Find out which PWM slice is connected to GPIO 0 (it's slice 0)
-    uint slice_num = pwm_gpio_to_slice_num(0);
-
-    // Set period of 4 cycles (0 to 3 inclusive)
-    pwm_set_wrap(slice_num, 3);
-    // Set channel A output high for one cycle before dropping
-    pwm_set_chan_level(slice_num, PWM_CHAN_A, 1);
-    // Set initial B output high for three cycles before dropping
-    pwm_set_chan_level(slice_num, PWM_CHAN_B, 3);
-    // Set the PWM running
-    pwm_set_enabled(slice_num, true);
-
     multicore_launch_core1(mic_core);
+
+    Oled::initialise(OLED_PIN_1, OLED_PIN_2);
+    Oled::displayIronMan();
+    sleep_ms(5000);
+    Oled::displayText(Oled_Message::DETECTING);
 
     while (true) {
         int8_t c = stdio_getchar_timeout_us(10);

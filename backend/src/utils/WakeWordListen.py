@@ -4,7 +4,7 @@ import numpy as np
 
 openwakeword.utils.download_models()
 
-def listenForWakeWord(threshold = 0.95):
+def listenForWakeWord(threshold = 0.50):
     model = openwakeword.Model(wakeword_models=["hey jarvis"]
 )
     # Model expects 1x16x96 sample size

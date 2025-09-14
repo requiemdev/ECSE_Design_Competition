@@ -13,9 +13,10 @@
 #define SPEAKER_UART_RX_PIN 5
 #define SPEAKER_UART_ID uart1
 
+/** GPIO Pin at which the microphone is connected to */
 #define MICROPHONE_INPUT_PIN 26
 
-/** The pin which the status LED is connected to */
+/** GPIO pin which the status LED is connected to */
 #define LED_STATUS_PIN 20
 
 /** The starting volume of the speaker module */

@@ -41,9 +41,9 @@ void MainEvent::initialiseMCU() {
 void MainEvent::onToyWakeup() {
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
     current_state = State::LISTENING;
-    if (!song_playing) {
-        Oled::displayText(Oled_Message::LISTENING);
-    }
+    Oled::displayIronMan();
+    sleep_ms(1500);
+    Oled::displayText(Oled_Message::LISTENING);
 }
 
 void MainEvent::onToySleep() {
@@ -92,8 +92,6 @@ int main()
     multicore_launch_core1(mic_core);
 
     Oled::initialise(OLED_PIN_1, OLED_PIN_2);
-    Oled::displayIronMan();
-    sleep_ms(5000);
     Oled::displayText(Oled_Message::DETECTING);
 
     while (true) {

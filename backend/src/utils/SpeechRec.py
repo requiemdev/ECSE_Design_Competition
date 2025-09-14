@@ -5,7 +5,11 @@ def recogniseSpeech(timeout=5, phrase_time_limit=20):
 
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source, duration=1)
-        audio = r.listen(source, timeout=timeout, phrase_time_limit=phrase_time_limit)
+        try:
+            audio = r.listen(source, timeout=timeout, phrase_time_limit=phrase_time_limit)
+        except sr.WaitTimeoutError:
+            print("Listening timed out while waiting for phrase to start")
+            return "Error"
 
     try:
         text = r.recognize_google(audio)

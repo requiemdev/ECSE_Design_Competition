@@ -41,9 +41,11 @@ void MainEvent::initialiseMCU() {
 void MainEvent::onToyWakeup() {
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
     current_state = State::LISTENING;
-    Oled::displayIronMan();
-    sleep_ms(1500);
-    Oled::displayText(Oled_Message::LISTENING);
+    if (!song_playing) {
+        Oled::displayIronMan();
+        sleep_ms(2000);
+        Oled::displayText(Oled_Message::LISTENING);
+    }
 }
 
 void MainEvent::onToySleep() {
@@ -56,6 +58,12 @@ void MainEvent::onToySleep() {
 
 void inline MainEvent::onByteReceivedFromLaptop(int8_t b) {
     Command::runCommandFromByte(b);
+}
+
+void MainEvent::onLaptopTransmissionTimerDepletion() {
+    // Transition to SLEEP state while waiting for the next 
+    //  voice transmission
+    MainEvent::onToySleep();
 }
 
 void MainEvent::onSongTimerDepletion() {

@@ -17,6 +17,13 @@ namespace MainEvent {
     /** This happens when the MCU receives a byte from the laptop. */
     void onByteReceivedFromLaptop(int8_t byte);
 
+    /** This happens when the Laptop Transmission timer runs out.
+    *  In other words, nothing has been heard from the MCU for a 
+    *  long time after it started transmitting sound data to the 
+    *  laptop. 
+    */
+    void onLaptopTransmissionTimerDepletion();
+
     /** When a song is started, a timer starts which allows the
     * song player to automatically stop after enough time of no 
     * commands heard.

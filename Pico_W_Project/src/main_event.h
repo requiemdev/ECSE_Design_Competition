@@ -14,6 +14,9 @@ namespace MainEvent {
     /** This happens when the toy stops listening and reverses wake up movements */
     void onToySleep();
 
+    /** This happens when the timer controlling the LED blinking stops and the LED switches states */
+    void onStatusLedTrigger();
+
     /** This happens when the MCU receives a byte from the laptop. */
     void onByteReceivedFromLaptop(int8_t byte);
 

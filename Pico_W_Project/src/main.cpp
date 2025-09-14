@@ -10,6 +10,7 @@
 #include "command/command.h"
 #include "oled/oled.h"
 #include "oled/oled_messages.h"
+#include "pin_output/gpio.h"
 
 // C Defines
 #ifdef __cplusplus
@@ -29,9 +30,13 @@ extern "C" {
 // Global Variables
 volatile bool song_playing = false;
 volatile State current_state = State::SLEEP;
+volatile bool status_led_state = false;
 
 void MainEvent::initialiseMCU() {
     stdio_init_all();
+    #ifdef LED_STATUS_PIN
+    GPIO::gpio_init_with_dir(LED_STATUS_PIN, 1);
+    #endif
     Speaker::initialise(SPEAKER_DEFAULT_VOLUME);
     microphone_setup();
 }
@@ -43,6 +48,7 @@ void MainEvent::onToyWakeup() {
         Oled::displayIronMan();
         sleep_ms(2000);
         Oled::displayText(Oled_Message::LISTENING);
+        Timer::startLedBlinkTimer();
     }
 }
 
@@ -51,7 +57,16 @@ void MainEvent::onToySleep() {
     Timer::stopLaptopTransmissionTimer();
     if (!song_playing) {
         Oled::displayText(Oled_Message::DETECTING);
+        Timer::stopLedBlinkTimer();
+        status_led_state = 0;
+        GPIO::gpio_set(LED_STATUS_PIN, 0);
     }
+}
+
+void MainEvent::onStatusLedTrigger() {
+    status_led_state = !status_led_state;
+    GPIO::gpio_set(LED_STATUS_PIN, status_led_state);
+    Timer::startLedBlinkTimer();
 }
 
 void inline MainEvent::onByteReceivedFromLaptop(int8_t b) {
@@ -73,14 +88,20 @@ void MainEvent::onSongStarted() {
     Timer::startSongTimer();
     song_playing = true;
     Oled::displayText(Oled_Message::PLAYING);
+    Timer::stopLedBlinkTimer();
+    status_led_state = 1;
+    GPIO::gpio_set(LED_STATUS_PIN, 1);
 }
 
 void MainEvent::onSongStopped() {
     Timer::stopSongTimer();
     if (current_state == State::SLEEP) {
         Oled::displayText(Oled_Message::DETECTING);
+        status_led_state = 0;
+        GPIO::gpio_set(LED_STATUS_PIN, 0);
     } else {
         Oled::displayText(Oled_Message::LISTENING);
+        Timer::startLedBlinkTimer();
     }
     song_playing = false;
 }

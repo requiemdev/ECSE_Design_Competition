@@ -1,5 +1,4 @@
 // Pico Defines
-#include "pico/cyw43_arch.h"
 #include "pico/multicore.h"
 
 // C++ Defines
@@ -34,13 +33,12 @@ volatile State current_state = State::SLEEP;
 void MainEvent::initialiseMCU() {
     stdio_init_all();
     Speaker::initialise(SPEAKER_DEFAULT_VOLUME);
-    cyw43_arch_init();
     microphone_setup();
 }
 
 void MainEvent::onToyWakeup() {
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
     current_state = State::LISTENING;
+    Timer::startLaptopTransmissionTimer();
     if (!song_playing) {
         Oled::displayIronMan();
         sleep_ms(2000);
@@ -49,14 +47,15 @@ void MainEvent::onToyWakeup() {
 }
 
 void MainEvent::onToySleep() {
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
     current_state = State::SLEEP;
+    Timer::stopLaptopTransmissionTimer();
     if (!song_playing) {
         Oled::displayText(Oled_Message::DETECTING);
     }
 }
 
 void inline MainEvent::onByteReceivedFromLaptop(int8_t b) {
+    Timer::startLaptopTransmissionTimer();
     Command::runCommandFromByte(b);
 }
 

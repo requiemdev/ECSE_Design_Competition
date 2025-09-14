@@ -21,6 +21,6 @@
 
 // Timer durations
 #define LAPTOP_TRANSMISSION_TIMER_DURATION_S 30
-#define SONG_TIMER_DURATION_S 60
+#define SONG_TIMER_DURATION_S 150
 
 #endif //COMMON_H

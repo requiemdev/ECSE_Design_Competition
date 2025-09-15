@@ -37,6 +37,9 @@ void MainEvent::initialiseMCU() {
     #ifdef LED_STATUS_PIN
     GPIO::gpio_init_with_dir(LED_STATUS_PIN, 1);
     #endif
+    #ifdef SPIN_PIN
+    GPIO::gpio_init_with_dir(SPIN_PIN, 1);
+    #endif
     Speaker::initialise(SPEAKER_DEFAULT_VOLUME);
     microphone_setup();
 }
@@ -91,6 +94,7 @@ void MainEvent::onSongStarted() {
     Timer::stopLedBlinkTimer();
     status_led_state = 1;
     GPIO::gpio_set(LED_STATUS_PIN, 1);
+    GPIO::gpio_set(SPIN_PIN, 1);
 }
 
 void MainEvent::onSongStopped() {
@@ -104,6 +108,7 @@ void MainEvent::onSongStopped() {
         Timer::startLedBlinkTimer();
     }
     song_playing = false;
+    GPIO::gpio_set(SPIN_PIN, 0);
 }
 
 void mic_core() {

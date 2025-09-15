@@ -16,6 +16,7 @@
 /** GPIO pin at which the spin device is connected to */
 #define SPIN_PIN 28
 
+
 /** GPIO Pin at which the microphone is connected to */
 #define MICROPHONE_INPUT_PIN 26
 

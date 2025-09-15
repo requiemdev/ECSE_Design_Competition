@@ -13,8 +13,9 @@
 #define SPEAKER_UART_RX_PIN 5
 #define SPEAKER_UART_ID uart1
 
-/** GPIO pin at which the servo is connected to */
-#define SPIN_PIN 21
+/** GPIO pin at which the spin device is connected to */
+#define SPIN_PIN 28
+
 
 /** GPIO Pin at which the microphone is connected to */
 #define MICROPHONE_INPUT_PIN 26

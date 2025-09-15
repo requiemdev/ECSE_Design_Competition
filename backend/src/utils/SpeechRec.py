@@ -4,7 +4,7 @@ def recogniseSpeech(timeout=5, phrase_time_limit=20):
     r = sr.Recognizer()
 
     with sr.Microphone() as source:
-        r.adjust_for_ambient_noise(source, duration=1)
+        r.adjust_for_ambient_noise(source, duration=10)
         try:
             audio = r.listen(source, timeout=timeout, phrase_time_limit=phrase_time_limit)
         except sr.WaitTimeoutError:

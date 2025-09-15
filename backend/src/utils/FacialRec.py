@@ -11,6 +11,7 @@ def detectEmotion():
 
     while True:
         ret, frame = cap.read()
+        cv2.imshow("image", frame)
         key = cv2.waitKey(1)
         if key == 27:  # ESC to exit
             break
